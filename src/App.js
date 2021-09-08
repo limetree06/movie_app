@@ -1,86 +1,36 @@
 import React from "react";
-import PropTypes from "prop-types";
 
-function Food({ name, image, rating }) {
-  return (
-    <div>
-      <h4>I love {name}</h4>
-      <h4>{rating}/5</h4>
-      <img src={image} alt={name} />
-    </div>
-  );
+//class App 은 react Component 이다. react component에는 많은 기능들이 있기때문에 이 작업이 필수적이다.
+//많은 기능 중 하나가 STATE!!!!!!!!!!!
+//React componetn안에 App class가 있는것
+class App extends React.Component {
+  //state 은 object이고 component의 data를 넣을 공간임 그리고 이 데이터는 '변한다'
+  state = {
+    count: 0,
+  };
+
+  add = () => {
+    //this.state.count++; -> 이렇게 하면 페이지에 변화된거 반영안됨 => setstate 이용해야함
+    //this.state.count 이건 performance 이슈가 있음
+    //this.setState({ count: this.state.count + 1 }); //update state and call render again
+    this.setState((current) => ({ count: current.count + 1 }));
+  };
+
+  minus = () => {
+    //this.state.count--;
+    this.setState((current) => ({ count: current.count - 1 }));
+  };
+
+  //return 없다 function이 아니기때문
+  //대신 render 이 있다 그리고 리액트는 automatically 모든 class componentd의 render method를 실행하고자 한다.
+  render() {
+    return (
+      <div>
+        <h1>The number is : {this.state.count}</h1>
+        <button onClick={this.add}>Add</button>
+        <button onClick={this.minus}>Minus</button>
+      </div>
+    );
+  }
 }
-
-Food.propTypes = {
-  name: PropTypes.string.isRequired,
-  image: PropTypes.string.isRequired,
-  rating: PropTypes.number.isRequired,
-  //isRequired means that foodILike안에 rating 안들어 가도 됨
-  //type checking with proptypes로 검색해보면 됩니당
-};
-
-const foodILike = [
-  {
-    id: 1,
-    name: "Kimchi",
-    image:
-      "http://aeriskitchen.com/wp-content/uploads/2008/09/kimchi_bokkeumbap_02-.jpg",
-    rating: 5,
-  },
-  {
-    id: 2,
-    name: "Samgyeopsal",
-    image:
-      "https://3.bp.blogspot.com/-hKwIBxIVcQw/WfsewX3fhJI/AAAAAAAAALk/yHxnxFXcfx4ZKSfHS_RQNKjw3bAC03AnACLcBGAs/s400/DSC07624.jpg",
-    rating: 4.9,
-  },
-  {
-    id: 3,
-    name: "Bibimbap",
-    image:
-      "http://cdn-image.myrecipes.com/sites/default/files/styles/4_3_horizontal_-_1200x900/public/image/recipes/ck/12/03/bibimbop-ck-x.jpg?itok=RoXlp6Xb",
-    rating: 4.8,
-  },
-  {
-    id: 4,
-    name: "Doncasu",
-    image:
-      "https://s3-media3.fl.yelpcdn.com/bphoto/7F9eTTQ_yxaWIRytAu5feA/ls.jpg",
-    rating: 4.7,
-  },
-  {
-    id: 5,
-    name: "Kimbap",
-    image:
-      "http://cdn2.koreanbapsang.com/wp-content/uploads/2012/05/DSC_1238r-e1454170512295.jpg",
-    rating: 4.6,
-  },
-];
-
-//main page에 들어갈 내용을 짜는 부분
-//실제 main page는 public 의 index.html
-//App.js를 index.html에 박아넣어서 실행되고 있는 것이다.
-//박아넣는것은 index.js에서 해주고 있다.
-function App() {
-  return (
-    <div className="App">
-      <h1>Hello!!!!!!!!!</h1>
-      {foodILike.map((dish) => (
-        <Food
-          key={dish.id}
-          name={dish.name}
-          image={dish.image}
-          rating={dish.rating}
-        />
-      ))}
-    </div>
-  );
-}
-
 export default App;
-
-//<Food fav="kimchi" something={true} papapapp={[1, 2, 3, 4, 5, true]} />
-//이렇게 적으면 props object에 묶여서 데이터 보내진다.
-//react는 props 를 이용해서 데이터를 주고 받는다
-
-//js + html로 코딩하면 => jsx
